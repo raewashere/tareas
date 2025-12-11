@@ -1,0 +1,60 @@
+name: Java CI/CD (Seguro con Service Principal)
+
+env:
+  AZURE_WEBAPP_NAME: tareaspagatodo
+  AZURE_RG: bancopagatodos
+  ACR_SERVER: ${{ secrets.ACR_LOGIN_SERVER }} # tareas.azurecr.io
+  ACR_REPOSITORY: tareas
+  IMAGE_TAG: ${{ github.sha }} 
+  FULL_IMAGE_NAME: ${{ secrets.ACR_LOGIN_SERVER }}/${{ env.ACR_REPOSITORY }}:${{ github.sha }}
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read # Solo leer el código
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      
+    # 1. Configurar Java y Maven
+    - name: Set up Java and Build JAR
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven'
+    - run: mvn clean package -DskipTests
+      
+    # 2. Login en Azure (Usando el Service Principal creado)
+    - name: Azure Login (Service Principal)
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    # 3. Login en Azure Container Registry (Usa las credenciales del Login de Azure)
+    - name: Docker login to ACR
+      uses: azure/docker-login@v2
+      with:
+        login-server: ${{ env.ACR_SERVER }}
+        # El username y password se toman automáticamente del Azure Login
+
+    # 4. Construir y Subir la Imagen al ACR
+    - name: Build and Push Docker Image to ACR
+      run: |
+        docker build -t ${{ env.FULL_IMAGE_NAME }} .
+        docker push ${{ env.FULL_IMAGE_NAME }}
+        
+    # 5. Desplegar la Imagen en Azure App Service
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        resource-group: ${{ env.AZURE_RG }}
+        images: ${{ env.FULL_IMAGE_NAME }} # Usa la imagen recién subida al ACR
