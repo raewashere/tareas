@@ -2,7 +2,7 @@ name: Java CI/CD (GitHub Registry & Publish Profile)
 
 env:
   AZURE_WEBAPP_NAME: tareaspagatodo
-  IMAGE_NAME: https://ghcr.io/${{ github.repository }}:${{ github.sha }}
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
 on:
   push:
