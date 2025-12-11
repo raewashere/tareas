@@ -69,16 +69,7 @@ jobs:
           # Ya que la publicación por perfil no funciona bien para contenedores.
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
           images: ${{ env.IMAGE_NAME }}
-
-          # --- AGREGAR ESTAS LÍNEAS PARA AUTENTICACIÓN ---
-          # El usuario es tu github.actor o simplemente tu nombre de usuario de GitHub
-          acr-username: ${{ github.actor }} 
-          # La contraseña debe ser un Token de Acceso Personal (PAT) 
-          # con el permiso 'read:packages' para GHCR.
-          # NO uses GITHUB_TOKEN aquí, ya que el GITHUB_TOKEN 
-          # del workflow no es el PAT que necesita App Service para tirar la imagen.
-          acr-password: ${{ secrets.TOKEN_TAREAS }} 
-          # ------------------------------------------------
+          resource-group-name: bancopagatodo
 
       - name: Notify deployment
         run: echo "El despliegue finalizó correctamente."
