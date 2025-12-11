@@ -2,8 +2,7 @@ name: Java CI/CD (GitHub Registry & Publish Profile)
 
 env:
   AZURE_WEBAPP_NAME: tareaspagatodo
-  # Definimos la base de la URL de la imagen sin la etiqueta
-  IMAGE_BASE: ghcr.io/${{ github.repository }} 
+  IMAGE_NAME: ghcr.io/${{ github.repository }}:${{ github.sha }}
 
 on:
   push:
@@ -40,7 +39,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }} # Usamos el GITHUB_TOKEN estándar
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push container image
         uses: docker/build-push-action@v5
@@ -48,7 +47,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.IMAGE_BASE }}:latest
+          tags: ${{ env.IMAGE_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -67,9 +66,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
-          # Corregimos para que use la etiqueta SHA (la más específica)
-          # Si Azure sigue extrayendo 'latest', el deploy forzará la imagen SHA.
-          images: ${{ env.IMAGE_BASE }}:${{ github.sha }} 
+          images: ${{ env.IMAGE_NAME }}
           resource-group-name: bancopagatodo
 
       - name: Notify deployment

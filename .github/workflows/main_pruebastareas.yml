@@ -35,7 +35,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }} # Usamos el GITHUB_TOKEN estándar
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push container image
         uses: docker/build-push-action@v5
@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.IMAGE_BASE }}:latest
+          tags: ${{ env.IMAGE_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
