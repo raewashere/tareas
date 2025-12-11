@@ -1,9 +1,21 @@
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '5432'
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/tareas
+      - SPRING_DATASOURCE_USERNAME=usuario
+      - SPRING_DATASOURCE_PASSWORD=contraseña
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: tareas
+      POSTGRES_USER: usuario
+      POSTGRES_PASSWORD: contraseña
+    ports:
+      - "5432:5432"
