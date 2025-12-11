@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tarea
+    url: jdbc:postgresql://localhost:5432/tareas
     username: usuario
     password: contraseña
     driver-class-name: org.postgresql.Driver
