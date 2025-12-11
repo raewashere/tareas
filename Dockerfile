@@ -19,8 +19,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-# Copiar jar desde la fase anterior
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar 
 
 # Ejecutar
 ENTRYPOINT ["java", "-jar", "app.jar"]
