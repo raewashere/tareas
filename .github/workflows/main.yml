@@ -12,7 +12,7 @@ on:
 
 permissions:
   contents: read
-  packages: write # Permiso necesario para escribir en el GitHub Container Registry (GHCR)
+  packages: write
 
 jobs:
   build:
@@ -73,7 +73,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          # El secreto que contiene el XML del Perfil de Publicación
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          # La imagen alojada en GHCR
           images: ${{ env.IMAGE_NAME }}
