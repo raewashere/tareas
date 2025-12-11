@@ -48,11 +48,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # --- CAMBIO CLAVE: DEFINICIÓN DE MÚLTIPLES ETIQUETAS ---
-          tags: |
-            ${{ env.IMAGE_BASE }}:${{ github.sha }}  # Etiqueta única
-            ${{ env.IMAGE_BASE }}:latest           # Etiqueta que busca Azure
-          # --------------------------------------------------------
+          tags: ${{ env.IMAGE_BASE }}:latest
 
   deploy:
     runs-on: ubuntu-latest
