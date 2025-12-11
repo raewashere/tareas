@@ -3,12 +3,16 @@ trigger:
 
 variables:
   # Configura estas variables en tu pipeline/group de variables
-  azureSubscription: 'Suscripción de Azure 1'
-  acrServiceConnection: 'tareas'
-  acrRegistry: 'tareas.azurecr.io' # Reemplaza con tu registro ACR
-  imageRepository: 'spring-boot-api'
-  tag: '$(Build.BuildId)'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+# --- Definición de Variables ---
+variables:
+  # CONEXIONES DE AZURE DEVOPS
+  azureSubscription: 'Suscripción de Azure 1' # Usado en la etapa de Deploy (App Service)
+  acrServiceConnection: 'tareas'              # Usado para autenticar el Docker Push
+  # DETALLES DE DOCKER Y ACR
+  acrRegistry: 'tareas.azurecr.io'            # El servidor de inicio de sesión de tu ACR
+  imageRepository: 'tareas'          # El nombre del repositorio en tu ACR (ej: tareas.azurecr.io/spring-boot-api)
+  tag: 'latest'
+  dockerfilePath: '/Dockerfile'
 
 stages:
 - stage: Build
@@ -43,7 +47,6 @@ stages:
         tags: |
           $(tag)
           latest
-
 - stage: Deploy
   displayName: Deploy to Azure App Service
   jobs:
@@ -63,6 +66,5 @@ stages:
             inputs:
               azureSubscription: '$(azureSubscription)' # Conexión a Azure Subscription
               appName: 'tareaspagatodo' # El nombre del App Service que creaste en Azure
-              resourceGroupName: 'bancopagatodos'
+              resourceGroupName: 'bancopagatodo'
               imageName: '$(acrRegistry)/$(imageRepository):$(tag)' # Imagen recién construida
-    
