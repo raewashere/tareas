@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://aws-0-us-east-1.pooler.supabase.com:6543/postgres
     username: postgres.zkviewvpmswfgpiwpoez
-    password: LWzxBPxzCtLiKc9r
+    password: N2VNFeSJNAbiPi7E
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
