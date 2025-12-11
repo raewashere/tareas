@@ -2,7 +2,8 @@ name: Java CI/CD (GitHub Registry & Publish Profile)
 
 env:
   AZURE_WEBAPP_NAME: tareaspagatodo
-  IMAGE_NAME: ghcr.io/${{ github.repository }}:${{ github.sha }}
+  # Definimos la base de la URL de la imagen sin la etiqueta
+  IMAGE_BASE: ghcr.io/${{ github.repository }} 
 
 on:
   push:
@@ -39,7 +40,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Usamos el GITHUB_TOKEN estándar
 
       - name: Build & push container image
         uses: docker/build-push-action@v5
@@ -47,7 +48,11 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ env.IMAGE_NAME }}
+          # --- CAMBIO CLAVE: DEFINICIÓN DE MÚLTIPLES ETIQUETAS ---
+          tags: |
+            ${{ env.IMAGE_BASE }}:${{ github.sha }}  # Etiqueta única
+            ${{ env.IMAGE_BASE }}:latest           # Etiqueta que busca Azure
+          # --------------------------------------------------------
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,10 +70,10 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          # Usar 'None' o 'Other' si es una aplicación Linux
-          # Ya que la publicación por perfil no funciona bien para contenedores.
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
-          images: ${{ env.IMAGE_NAME }}
+          # Corregimos para que use la etiqueta SHA (la más específica)
+          # Si Azure sigue extrayendo 'latest', el deploy forzará la imagen SHA.
+          images: ${{ env.IMAGE_BASE }}:${{ github.sha }} 
           resource-group-name: bancopagatodo
 
       - name: Notify deployment
