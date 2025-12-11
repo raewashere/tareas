@@ -60,18 +60,25 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Verify image exists in GHCR
-        run: docker pull ${{ env.IMAGE_NAME }}
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          # Usar 'None' o 'Other' si es una aplicación Linux
+          # Ya que la publicación por perfil no funciona bien para contenedores.
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
           images: ${{ env.IMAGE_NAME }}
+
+          # --- AGREGAR ESTAS LÍNEAS PARA AUTENTICACIÓN ---
+          # El usuario es tu github.actor o simplemente tu nombre de usuario de GitHub
+          acr-username: ${{ github.actor }} 
+          # La contraseña debe ser un Token de Acceso Personal (PAT) 
+          # con el permiso 'read:packages' para GHCR.
+          # NO uses GITHUB_TOKEN aquí, ya que el GITHUB_TOKEN 
+          # del workflow no es el PAT que necesita App Service para tirar la imagen.
+          acr-password: ${{ secrets.TOKEN_TAREAS }} 
+          # ------------------------------------------------
 
       - name: Notify deployment
         run: echo "El despliegue finalizó correctamente."
