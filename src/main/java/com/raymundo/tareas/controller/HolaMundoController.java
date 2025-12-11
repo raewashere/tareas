@@ -13,7 +13,7 @@ public class HolaMundoController {
 
     @GetMapping("/hola")
     @Operation(summary = "Hola", description = "Endpoint de prueba de Hola para probar configuración", responses = {
-            @ApiResponse(responseCode = "200", description = "Responde un Hola en JSON", content = @Content(mediaType = "application/json"))
+            @ApiResponse(responseCode = "200", description = "Responde un Hola en texto plano", content = @Content(mediaType = "text/plain"))
     })
     public ResponseEntity<?> hola() {
         String hola = "Hola";

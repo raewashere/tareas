@@ -1,6 +1,7 @@
 services:
   app:
     build:
+      x-bake: false
       context: .
       dockerfile: Dockerfile
     ports:
