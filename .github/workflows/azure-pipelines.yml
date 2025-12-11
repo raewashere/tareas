@@ -1,0 +1,68 @@
+trigger:
+- main # Se dispara cuando hay cambios en la rama main
+
+variables:
+  # Configura estas variables en tu pipeline/group de variables
+  azureSubscription: 'Suscripción de Azure 1'
+  acrServiceConnection: 'tareas'
+  acrRegistry: 'tareas.azurecr.io' # Reemplaza con tu registro ACR
+  imageRepository: 'spring-boot-api'
+  tag: '$(Build.BuildId)'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+
+stages:
+- stage: Build
+  displayName: Build and Push Docker Image
+  jobs:
+  - job: Build
+    displayName: Maven Build and Docker Push
+    pool:
+      vmImage: 'ubuntu-latest' # Agente preconfigurado con herramientas
+
+    steps:
+    # 1. Tarea de Compilación de Maven (Build de la Aplicación)
+    - task: Maven@4
+      displayName: 'Maven Package'
+      inputs:
+        mavenPomFile: 'pom.xml' # O build.gradle para Gradle
+        goals: 'package'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '21' # Asegúrate de que coincida con tu proyecto
+        mavenOptions: '-Xmx3072m'
+
+    # 2. Tarea para Construir la Imagen de Docker
+    - task: Docker@2
+      displayName: 'Build and Push Docker Image'
+      inputs:
+        containerRegistry: '$(acrServiceConnection)' # Conexión al ACR
+        repository: '$(imageRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '$(dockerfilePath)'
+        tags: |
+          $(tag)
+          latest
+
+- stage: Deploy
+  displayName: Deploy to Azure App Service
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy to App Service
+    environment: 'production' # Puedes crear un entorno en Azure DevOps
+    pool:
+      vmImage: 'ubuntu-latest'
+    
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          # 1. Tarea de Despliegue en Azure App Service
+          - task: AzureWebAppContainer@1
+            displayName: 'Azure App Service Deploy'
+            inputs:
+              azureSubscription: '$(azureSubscription)' # Conexión a Azure Subscription
+              appName: 'tareaspagatodo' # El nombre del App Service que creaste en Azure
+              resourceGroupName: 'bancopagatodos'
+              imageName: '$(acrRegistry)/$(imageRepository):$(tag)' # Imagen recién construida
+    
