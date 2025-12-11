@@ -2,9 +2,6 @@ trigger:
 - main # Se dispara cuando hay cambios en la rama main
 
 variables:
-  # Configura estas variables en tu pipeline/group de variables
-# --- Definición de Variables ---
-variables:
   # CONEXIONES DE AZURE DEVOPS
   azureSubscription: 'Suscripción de Azure 1' # Usado en la etapa de Deploy (App Service)
   acrServiceConnection: 'tareas'              # Usado para autenticar el Docker Push
