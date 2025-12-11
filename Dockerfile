@@ -1,5 +1,5 @@
 # ------------ FASE 1: Build ------------
-FROM maven:4.0.0-eclipse-temurin-21 AS build
+FROM maven:4.0.0-rc-5-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
