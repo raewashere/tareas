@@ -54,11 +54,17 @@ jobs:
     needs: build
     permissions:
       contents: none
+
     environment:
       name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify image exists in GHCR
+        run: docker pull ${{ env.IMAGE_NAME }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -66,3 +72,6 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: ${{ env.IMAGE_NAME }}
+
+      - name: Notify deployment
+        run: echo "El despliegue finalizó correctamente."
