@@ -1,0 +1,9 @@
+com\raymundo\tareas\service\TareaService.class
+com\raymundo\tareas\controller\TareaController.class
+com\raymundo\tareas\query\TareaQuery.class
+com\raymundo\tareas\config\OpenAPIConfig.class
+com\raymundo\tareas\entity\Tarea.class
+com\raymundo\tareas\TareasApplication.class
+com\raymundo\tareas\entity\Status.class
+com\raymundo\tareas\controller\HolaMundoController.class
+com\raymundo\tareas\repository\TareaRepository.class
