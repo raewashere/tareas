@@ -1,5 +1,5 @@
 # ------------ FASE 1: Build ------------
-FROM maven:4.0.0-rc-5-eclipse-temurin-21 AS build
+FROM maven:4.0.0-rc-5-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
@@ -15,12 +15,12 @@ RUN mvn clean package -DskipTests
 
 
 # ------------ FASE 2: Run ------------
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar 
 
 # Ejecutar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]
 EXPOSE 8080
