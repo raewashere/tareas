@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.raymundo.tareas.entity.Tarea;
 
 @Repository
-public interface TareaRepository extends JpaRepository<Tarea, Long> {
-    
+public interface TareaRepository extends JpaRepository<Tarea, Integer> {
+
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.raymundo.tareas.dto.TareaRequest;
 import com.raymundo.tareas.entity.Tarea;
 import com.raymundo.tareas.repository.TareaRepository;
 
@@ -21,25 +22,30 @@ public class TareaService {
         return tareaRepository.findAll();
     }
 
-    public Optional<Tarea> getTareaById(Long id) {
+    public Optional<Tarea> getTareaById(Integer id) {
         return tareaRepository.findById(id);
     }
 
-    public Tarea saveTarea(Tarea Tarea) {
-        return tareaRepository.save(Tarea);
+    public Tarea saveTarea(TareaRequest tareaRequest) {
+        Tarea tarea = new Tarea();
+        tarea.setTitle(tareaRequest.getTitle());
+        tarea.setDescription(tareaRequest.getDescription());
+        tarea.setStatus(tareaRequest.getStatus());
+        return tareaRepository.save(tarea);
     }
 
-    public void deleteTarea(Long id) {
+    public void deleteTarea(Integer id) {
         tareaRepository.deleteById(id);
     }
 
-    public Tarea updateTarea(Long id, Tarea TareaDetails) {
-        return tareaRepository.findById(id).map(Tarea -> {
-            Tarea.setTitle(TareaDetails.getTitle());
-            Tarea.setDescription(TareaDetails.getDescription());
-            Tarea.setStatus(TareaDetails.getStatus());
-            Tarea.setCreationDate(TareaDetails.getCreationDate());
-            return tareaRepository.save(Tarea);
-        }).orElseThrow(() -> new IllegalArgumentException("Tarea con ID " + id + " no encontrado."));
+    public Tarea updateTarea(Integer id, TareaRequest request) {
+        Tarea tarea = tareaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        tarea.setTitle(request.getTitle());
+        tarea.setDescription(request.getDescription());
+        tarea.setStatus(request.getStatus());
+
+        return tareaRepository.save(tarea);
     }
 }
