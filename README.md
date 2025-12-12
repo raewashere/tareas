@@ -1,30 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![Unlicense License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
 
 
 <!-- PROJECT LOGO -->
@@ -34,7 +8,6 @@
   <h3 align="center">Prueba técnica Tareas</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
     <br />
     <a href="pruebastareas-dyaua7b7btcvdbbe.mexicocentral-01.azurewebsites.net/docs/swagger-ui.html"><strong>Swagger</strong></a>
     <br />
@@ -46,7 +19,7 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Tabla de contenido</summary>
   <ol>
     <li>
       <a href="#about-the-project">Sobre la API</a>
@@ -67,17 +40,12 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
+## Sobre el proyecto
 Este proyecto implementa una API REST para gestionar tareas utilizando Spring Boot, aplicando principios avanzados de arquitectura y patrones de diseño:
 
-Clean Architecture / Hexagonal
+Clean Architecture
 
 Repository Pattern
-
-Unit of Work (mediante @Transactional)
 
 Dependency Injection (DI)
 
@@ -94,7 +62,7 @@ Y despliegue en Azure Web App
 
 
 
-### Built With
+### Hecho con
 
 Hecho con Java 21 y  Postgresql
 
@@ -104,16 +72,15 @@ Hecho con Java 21 y  Postgresql
 
 
 <!-- GETTING STARTED -->
-## Getting Started
-
+## Iniciando
 Así es como se puede clonar la aplicación
 
-### Prerequisites
+### Prerequisitos
 
 Para usarlo se debe de tener instalado correctamente Docker
 
 
-### Installation
+### Instalación
 
 Abajo se describe como instalaro en tu propia computadora
 
@@ -126,14 +93,6 @@ Abajo se describe como instalaro en tu propia computadora
    ```sh
    docker run ghcr.io/raewashere/tareas:14957b82b94d0a4f8e5aa18e6d2ab1b08756c86a
    ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- CONTACT -->
-## Contacto
-
-Project Link: [https://github.com/raewashere/tareas](https://github.com/raewashere/tareas)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
