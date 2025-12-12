@@ -1,4 +1,5 @@
 com\raymundo\tareas\service\TareaService.class
+com\raymundo\tareas\dto\TareaRequest.class
 com\raymundo\tareas\controller\TareaController.class
 com\raymundo\tareas\query\TareaQuery.class
 com\raymundo\tareas\config\OpenAPIConfig.class

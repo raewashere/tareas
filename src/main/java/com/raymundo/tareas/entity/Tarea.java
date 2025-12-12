@@ -11,6 +11,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
 
 @Data
@@ -20,10 +21,11 @@ public class Tarea {
     public Tarea() {
 
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", nullable = false)
-    private Long Id;
+    private Integer Id;
 
     @Column(name = "Title", nullable = false)
     private String Title;
@@ -33,9 +35,10 @@ public class Tarea {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Status", nullable = false)
-    private Status Status;
+    private Status status = Status.PENDING;
 
-    @Column(name = "CreationDate", nullable= false)
+    @CreationTimestamp
+    @Column(name = "CreationDate", nullable = false, updatable = false)
     private Date CreationDate;
 
 }
