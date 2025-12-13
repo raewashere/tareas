@@ -9,10 +9,10 @@
 
   <p align="center">
     <br />
-    <a href="pruebastareas-dyaua7b7btcvdbbe.mexicocentral-01.azurewebsites.net/docs/swagger-ui.html"><strong>Swagger</strong></a>
+    <a href="http://4.239.127.201:8080/docs/swagger-ui/index.html"><strong>Swagger</strong></a>
     <br />
     <br />
-    <a href="pruebastareas-dyaua7b7btcvdbbe.mexicocentral-01.azurewebsites.net">API</a>
+    <a href="http://4.239.127.201:8080">API</a>
 </div>
 
 
